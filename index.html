@@ -149,7 +149,66 @@
     white-space:nowrap;
   }
   .nav-cta:hover{background:var(--blanc);color:var(--noir);border-color:var(--blanc);}
-  .nav-toggle{display:none;}
+
+  /* ---------- MOBILE MENU (hamburger + drawer) ---------- */
+  .menu-toggle{
+    display:none;
+    width:38px;height:38px;
+    align-items:center;justify-content:center;
+    background:none;border:none;cursor:pointer;
+    flex-shrink:0;z-index:220;position:relative;
+  }
+  .menu-toggle span{
+    display:block;width:22px;height:1.5px;background:var(--blanc);
+    position:relative;transition:transform .35s ease, opacity .35s ease, background .35s ease;
+  }
+  .menu-toggle span::before, .menu-toggle span::after{
+    content:"";position:absolute;left:0;width:22px;height:1.5px;background:var(--blanc);
+    transition:transform .35s ease, top .35s ease, opacity .35s ease;
+  }
+  .menu-toggle span::before{top:-7px;}
+  .menu-toggle span::after{top:7px;}
+  .menu-toggle.open span{background:transparent;}
+  .menu-toggle.open span::before{top:0;transform:rotate(45deg);}
+  .menu-toggle.open span::after{top:0;transform:rotate(-45deg);}
+
+  .menu-scrim{
+    position:fixed;inset:0;z-index:200;
+    background:rgba(0,0,0,0.5);
+    opacity:0;pointer-events:none;
+    transition:opacity .4s ease;
+  }
+  .menu-scrim.show{opacity:1;pointer-events:auto;}
+
+  .mobile-drawer{
+    position:fixed;top:0;right:0;bottom:0;z-index:210;
+    width:min(320px, 82vw);
+    background:var(--noir-panel);
+    border-left:1px solid var(--line-strong);
+    transform:translateX(100%);
+    transition:transform .45s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;
+    padding:100px 36px 40px;
+  }
+  .mobile-drawer.open{transform:translateX(0);}
+  .mobile-drawer nav{display:flex;flex-direction:column;gap:0;}
+  .mobile-drawer nav a{
+    font-size:15px;font-weight:600;letter-spacing:.04em;
+    color:var(--blanc);
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .mobile-drawer nav a span.num{font-size:11px;color:var(--titane);font-weight:500;letter-spacing:.1em;}
+  .mobile-drawer .drawer-cta{
+    margin-top:32px;text-align:center;
+    font-size:12.5px;letter-spacing:.12em;font-weight:600;
+    padding:16px 22px;border:1px solid var(--line-strong);color:var(--blanc);
+  }
+  @media (max-width: 900px){
+    .menu-toggle{display:flex;}
+    .nav-cta{display:none;}
+  }
 
   /* ---------- HERO ---------- */
   .hero{
@@ -586,7 +645,6 @@
     .p-meta{padding:10px 10px;}
     .p-meta .cat{font-size:8.5px;}
     .p-meta .name{font-size:11px;margin-top:2px;}
-    .nav-cta{display:none;}
     .filters{overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;}
     .about-grid{grid-template-columns:96px 1fr;gap:18px;align-items:start;}
     .about-photo{max-width:none;margin:0;}
@@ -622,8 +680,24 @@
       <a href="#contact">Contact</a>
     </nav>
     <a href="#contact" class="nav-cta">Demander un devis</a>
+    <button type="button" class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span>
+    </button>
   </div>
 </header>
+
+<div class="menu-scrim" id="menuScrim"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <nav>
+    <a href="#top" data-close><span>Accueil</span><span class="num">01</span></a>
+    <a href="#services" data-close><span>Services</span><span class="num">02</span></a>
+    <a href="#portfolio" data-close><span>Portfolio</span><span class="num">03</span></a>
+    <a href="#testimonials" data-close><span>Témoignages</span><span class="num">04</span></a>
+    <a href="#about" data-close><span>Qui suis-je</span><span class="num">05</span></a>
+    <a href="#contact" data-close><span>Contact</span><span class="num">06</span></a>
+  </nav>
+  <a href="#contact" class="drawer-cta" data-close>Demander un devis</a>
+</div>
 
 <main id="top">
 
@@ -1012,6 +1086,38 @@
   window.addEventListener('scroll', () => {
     if (window.scrollY > 60) nav.classList.add('solid');
     else nav.classList.remove('solid');
+  });
+
+  // Mobile drawer menu
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileDrawer = document.getElementById('mobileDrawer');
+  const menuScrim = document.getElementById('menuScrim');
+
+  function openDrawer(){
+    mobileDrawer.classList.add('open');
+    menuScrim.classList.add('show');
+    menuToggle.classList.add('open');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    mobileDrawer.classList.remove('open');
+    menuScrim.classList.remove('show');
+    menuToggle.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  menuToggle.addEventListener('click', () => {
+    if (mobileDrawer.classList.contains('open')) closeDrawer();
+    else openDrawer();
+  });
+  menuScrim.addEventListener('click', closeDrawer);
+  mobileDrawer.querySelectorAll('[data-close]').forEach(el => {
+    el.addEventListener('click', closeDrawer);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDrawer();
   });
 
   // Portfolio filters
