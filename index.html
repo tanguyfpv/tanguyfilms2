@@ -384,6 +384,46 @@
     .partners-viewport{overflow-x:auto;}
   }
 
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);
+  }
+  .testimonial-card{
+    background:var(--noir);
+    padding:22px 20px;
+    display:flex;flex-direction:column;
+    transition:background .4s ease;
+  }
+  .testimonial-card:hover{background:var(--noir-panel-2);}
+  .t-stars{display:flex;gap:3px;margin-bottom:10px;}
+  .t-stars svg{width:10px;height:10px;fill:var(--argent);}
+  .t-quote-mark{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:36px;line-height:1;font-weight:700;
+    background:linear-gradient(135deg,#fdfdfd 0%, #c7c9cc 55%, #8a8d91 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:0;height:22px;
+  }
+  .testimonial-text{
+    color:var(--argent);font-size:12.5px;line-height:1.55;
+    flex-grow:1;margin-bottom:14px;
+  }
+  .testimonial-author{
+    display:flex;align-items:center;gap:9px;
+    padding-top:12px;border-top:1px solid var(--line);
+  }
+  .t-avatar{
+    width:28px;height:28px;border-radius:50%;
+    border:1px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;color:var(--blanc);
+    flex-shrink:0;
+  }
+  .t-name{font-size:12.5px;font-weight:700;letter-spacing:.01em;}
+  .t-company{font-size:10.5px;color:var(--titane);letter-spacing:.03em;margin-top:1px;}
+  #testimonials{padding:56px 0;}
+
   /* ---------- ABOUT ---------- */
   .about-grid{display:grid;grid-template-columns:300px 1fr;gap:48px;align-items:center;}
   .about-photo{
@@ -534,6 +574,7 @@
     nav.links{display:none;}
     .contact-grid{grid-template-columns:1fr;gap:50px;}
     .services-grid{grid-template-columns:1fr;}
+    .testimonials-grid{grid-template-columns:1fr;}
     .portfolio-grid{grid-template-columns:1fr 1fr;}
     .form-row{grid-template-columns:1fr;}
     section{padding:90px 0;}
@@ -764,6 +805,77 @@
           <img class="p-thumb" src="https://i.ytimg.com/vi/IMijDtXFFwc/hqdefault.jpg" alt="Parc Walibi — Drone FPV" loading="lazy">
           <div class="ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
           <div class="p-meta"><div><div class="cat">Drone FPV</div><div class="name">Parc Walibi</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="section-line">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="kicker">Témoignages</span><h2>Ce qu'ils en disent</h2></div>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="t-stars"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></div>
+          <div class="t-quote-mark">&rdquo;</div>
+          <p class="testimonial-text">Super travail de Tanguy, très professionnel et un rendu vraiment qualitatif. Je recommande !</p>
+          <div class="testimonial-author">
+            <div class="t-avatar">J</div>
+            <div>
+              <div class="t-name">Justine</div>
+              <div class="t-company">Leroy Merlin</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></div>
+          <div class="t-quote-mark">&rdquo;</div>
+          <p class="testimonial-text">Très bonne expérience avec Tanguy ! À l'écoute, créatif et super pro. Résultat au top.</p>
+          <div class="testimonial-author">
+            <div class="t-avatar">H</div>
+            <div>
+              <div class="t-name">Hugo</div>
+              <div class="t-company">Mariage</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></div>
+          <div class="t-quote-mark">&rdquo;</div>
+          <p class="testimonial-text">Tanguy est très pro et sympa, avec un vrai souci du détail. Les vidéos sont magnifiques !</p>
+          <div class="testimonial-author">
+            <div class="t-avatar">L</div>
+            <div>
+              <div class="t-name">Léonard</div>
+              <div class="t-company">Groupe Blanchet</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></div>
+          <div class="t-quote-mark">&rdquo;</div>
+          <p class="testimonial-text">Excellent travail, Tanguy a parfaitement compris nos attentes. Je recommande à 100 % !</p>
+          <div class="testimonial-author">
+            <div class="t-avatar">L</div>
+            <div>
+              <div class="t-name">Ludo</div>
+              <div class="t-company">Hummel</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-stars"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></div>
+          <div class="t-quote-mark">&rdquo;</div>
+          <p class="testimonial-text">Un rendu vraiment professionnel et une super collaboration. Merci Tanguy !</p>
+          <div class="testimonial-author">
+            <div class="t-avatar">L</div>
+            <div>
+              <div class="t-name">Laeticia</div>
+              <div class="t-company">Mariage</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
