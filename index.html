@@ -525,6 +525,14 @@
   .star-rating button:hover{transform:scale(1.1);}
   .star-rating button.active{color:var(--argent);}
 
+  .review-form-collapsible{
+    max-height:0;opacity:0;overflow:hidden;
+    transition:max-height .5s ease, opacity .4s ease;
+  }
+  .review-form-collapsible.open{
+    max-height:900px;opacity:1;
+  }
+
   @media (max-width: 900px){
     .review-form-wrap{grid-template-columns:1fr;gap:30px;}
   }
@@ -1014,7 +1022,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg>
             Publication après validation manuelle
           </div>
+          <button type="button" class="btn btn-ghost" id="reviewToggleBtn" style="margin-top:24px;">Laisser un avis</button>
         </div>
+        <div class="review-form-collapsible" id="reviewFormCollapsible">
         <form id="reviewForm" name="avis" method="POST" data-netlify="true" netlify-honeypot="bot-field-review">
           <input type="hidden" name="form-name" value="avis">
           <p style="position:absolute;left:-9999px;" aria-hidden="true">
@@ -1050,6 +1060,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <span class="form-note" id="reviewNote">Publié après vérification.</span>
           </div>
         </form>
+        </div>
       </div>
     </div>
   </section>
@@ -1304,6 +1315,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         submitBtn.disabled = false;
       });
   });
+
+  // Review form — toggle visibility via button
+  const reviewToggleBtn = document.getElementById('reviewToggleBtn');
+  const reviewFormCollapsible = document.getElementById('reviewFormCollapsible');
+  if (reviewToggleBtn && reviewFormCollapsible) {
+    reviewToggleBtn.addEventListener('click', () => {
+      const isOpen = reviewFormCollapsible.classList.toggle('open');
+      reviewToggleBtn.textContent = isOpen ? 'Masquer le formulaire' : 'Laisser un avis';
+      if (isOpen) {
+        setTimeout(() => {
+          reviewFormCollapsible.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 150);
+      }
+    });
+  }
 
   // Review form — star rating + submission via Netlify Forms (AJAX)
   const reviewForm = document.getElementById('reviewForm');
