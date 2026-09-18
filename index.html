@@ -506,6 +506,29 @@
   .t-company{font-size:10.5px;color:var(--titane);letter-spacing:.03em;margin-top:1px;}
   #testimonials{padding:56px 0;}
 
+  .review-form-wrap{
+    margin-top:44px;padding-top:40px;border-top:1px solid var(--line);
+    display:grid;grid-template-columns:0.85fr 1.15fr;gap:60px;
+  }
+  .review-form-head h3{font-size:1.3rem;font-weight:700;margin-bottom:12px;}
+  .review-form-head p{color:var(--argent);font-size:14px;line-height:1.6;max-width:38ch;}
+  .review-form-head .rf-note{
+    margin-top:16px;font-size:11.5px;color:var(--titane);
+    display:flex;align-items:center;gap:8px;
+  }
+  .star-rating{display:flex;gap:6px;margin-top:8px;}
+  .star-rating button{
+    background:none;border:none;cursor:pointer;padding:2px;
+    color:var(--line-strong);transition:color .2s ease, transform .2s ease;
+  }
+  .star-rating button svg{width:24px;height:24px;fill:currentColor;}
+  .star-rating button:hover{transform:scale(1.1);}
+  .star-rating button.active{color:var(--argent);}
+
+  @media (max-width: 900px){
+    .review-form-wrap{grid-template-columns:1fr;gap:30px;}
+  }
+
   /* ---------- ABOUT ---------- */
   .about-grid{display:grid;grid-template-columns:300px 1fr;gap:48px;align-items:center;}
   .about-photo{
@@ -982,6 +1005,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
       </div>
+
+      <div class="review-form-wrap">
+        <div class="review-form-head">
+          <h3>Laisser un avis</h3>
+          <p>Vous avez travaillé avec TanguyFilms&nbsp;? Partagez votre expérience — chaque avis est vérifié avant publication sur le site.</p>
+          <div class="rf-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg>
+            Publication après validation manuelle
+          </div>
+        </div>
+        <form id="reviewForm" name="avis" method="POST" data-netlify="true" netlify-honeypot="bot-field-review">
+          <input type="hidden" name="form-name" value="avis">
+          <p style="position:absolute;left:-9999px;" aria-hidden="true">
+            <label>Ne pas remplir : <input name="bot-field-review" tabindex="-1" autocomplete="off"></label>
+          </p>
+          <div class="form-row">
+            <div class="field">
+              <label for="rvName">Nom</label>
+              <input type="text" id="rvName" name="name" required>
+            </div>
+            <div class="field">
+              <label for="rvCompany">Entreprise / contexte</label>
+              <input type="text" id="rvCompany" name="company" placeholder="Ex. Leroy Merlin, Mariage…">
+            </div>
+          </div>
+          <div class="field">
+            <label>Note</label>
+            <div class="star-rating" id="starRating">
+          <button type="button" class="star-btn active" data-value="1" aria-label="1 étoile"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></button>
+          <button type="button" class="star-btn active" data-value="2" aria-label="2 étoiles"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></button>
+          <button type="button" class="star-btn active" data-value="3" aria-label="3 étoiles"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></button>
+          <button type="button" class="star-btn active" data-value="4" aria-label="4 étoiles"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></button>
+          <button type="button" class="star-btn active" data-value="5" aria-label="5 étoiles"><svg viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.5 6 .8-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.8z"/></svg></button>
+            </div>
+            <input type="hidden" name="rating" id="ratingInput" value="5">
+          </div>
+          <div class="field">
+            <label for="rvMessage">Votre avis</label>
+            <textarea id="rvMessage" name="message" required placeholder="Racontez votre expérience avec TanguyFilms."></textarea>
+          </div>
+          <div class="submit-row">
+            <button type="submit" class="btn btn-primary" style="border:none;cursor:pointer;">Envoyer mon avis</button>
+            <span class="form-note" id="reviewNote">Publié après vérification.</span>
+          </div>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -1235,6 +1304,56 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         submitBtn.disabled = false;
       });
   });
+
+  // Review form — star rating + submission via Netlify Forms (AJAX)
+  const reviewForm = document.getElementById('reviewForm');
+  if (reviewForm) {
+    const reviewNote = document.getElementById('reviewNote');
+    const reviewSubmitBtn = reviewForm.querySelector('button[type="submit"]');
+    const ratingInput = document.getElementById('ratingInput');
+    const starBtns = document.querySelectorAll('#starRating .star-btn');
+
+    function setStars(value) {
+      ratingInput.value = value;
+      starBtns.forEach(btn => {
+        btn.classList.toggle('active', Number(btn.dataset.value) <= value);
+      });
+    }
+    starBtns.forEach(btn => {
+      btn.addEventListener('click', () => setStars(Number(btn.dataset.value)));
+    });
+    setStars(5);
+
+    reviewForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(reviewForm);
+      const payload = {};
+      formData.forEach((value, key) => { payload[key] = value; });
+
+      reviewSubmitBtn.disabled = true;
+      const originalLabel = reviewSubmitBtn.textContent;
+      reviewSubmitBtn.textContent = 'Envoi en cours…';
+      reviewNote.textContent = '';
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encodeFormData(payload)
+      })
+        .then(() => {
+          reviewNote.textContent = 'Merci pour votre avis — il sera publié après vérification.';
+          reviewForm.reset();
+          setStars(5);
+          reviewSubmitBtn.textContent = originalLabel;
+          reviewSubmitBtn.disabled = false;
+        })
+        .catch(() => {
+          reviewNote.textContent = "Une erreur s'est produite. Réessayez ou écrivez à contact@tanguyfilms.fr.";
+          reviewSubmitBtn.textContent = originalLabel;
+          reviewSubmitBtn.disabled = false;
+        });
+    });
+  }
 
   // Cookie consent
   const COOKIE_KEY = 'tf_cookie_consent';
